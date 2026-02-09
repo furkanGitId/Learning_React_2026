@@ -1,24 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState, createContext, useContext } from "react";
+import LiveClock from "./LiveClock";
+
+const ThemeContext = createContext("light");
+
+function DataFetcher() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  }, []);
+
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+function ThemedComponent() {
+  const theme = useContext(ThemeContext);
+  return <p>{theme}</p>;
+}
+
 
 function App() {
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Data Fetching with useEffect basics</h1>
+      <DataFetcher />
+      <h1>Theme Context useContext intro</h1>
+      {/* 3. Pass the state variable to the Provider */}
+      <ThemeContext.Provider value={theme}>
+        <button onClick={toggleTheme}>
+          Switch to {theme === "light" ? "Dark" : "Light"} Mode
+        </button>
+        <ThemedComponent />
+      </ThemeContext.Provider>
+      <h1>Live Clock with useEffect cleanup</h1>
+      <LiveClock />
+    </>
   );
 }
 
