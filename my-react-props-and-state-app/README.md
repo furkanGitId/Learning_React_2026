@@ -1,5 +1,57 @@
 # React Props and State: A Comprehensive Guide
 
+# Day 2: Props and State
+
+## Overview
+Today you’ll learn how data flows in React using props and how components manage their own data using state.
+
+## Step by step
+
+### Props
+Props are inputs passed to components.
+
+```jsx
+function HelloWorld(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+function App() {
+  return <HelloWorld name="Alice" />;
+}
+```
+
+Props are read-only.
+
+### State with useState
+State stores data that can change.
+
+```jsx
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+}
+```
+
+### Combining props and state
+
+```jsx
+function App() {
+  const [message, setMessage] = useState('Hello');
+
+  return <HelloWorld name={message} />;
+}
+```
+
 ## 1. What are props?
 
 **Props** (short for "properties") are arguments passed to components, like parameters to a function. They let you pass data from a parent component to a child component.
